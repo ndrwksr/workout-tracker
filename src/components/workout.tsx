@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Workout } from "../models";
 import { ExerciseCard } from "./exercise";
 import { Link } from "react-router-dom";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 type WorkoutCardProps = { workout: Workout; selected: boolean };
 
@@ -31,7 +32,7 @@ export const WorkoutList: FC<WorkoutListProps> = ({
   workouts,
   selectedWorkout,
 }) => (
-  <ul className="flex flex-col divide-y divide-gray-200">
+  <ul className="flex flex-col w-full divide-y divide-gray-200">
     {workouts.map((workout, i) => {
       return (
         <Link to={`/workouts/${workout._id.toHexString()}`} key={i}>
@@ -54,12 +55,12 @@ export type WorkoutDetailsProps = {
 
 export const WorkoutDetails: FC<WorkoutDetailsProps> = ({ workout }) => (
   <div className="px-4 pt-4">
-    <ul className="divide-y space-y-4 divide-gray-200">
-      {workout.exercises.map((exercise, i) => (
-        <li key={i}>
-          <ExerciseCard exercise={exercise} />
-        </li>
-      ))}
-    </ul>
+    <AnimateSharedLayout>
+      <ul className="space-y-4">
+        {workout.exercises.map((exercise, i) => (
+          <ExerciseCard exercise={exercise} key={i} />
+        ))}
+      </ul>
+    </AnimateSharedLayout>
   </div>
 );
